@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, patch
 from datetime import datetime
-from jose import jwt
+from jose import jwt  # type: ignore[import-untyped]
 from starlette.exceptions import HTTPException
 from starlette import status
 
