@@ -1,0 +1,16 @@
+[MASTER]
+# Files to ignore
+ignore=venv, school.db, __pycache__
+
+[MESSAGES CONTROL]
+# Disable specific warnings
+disable=
+    C0114, # missing-module-docstring (You don't need docstrings for every file)
+    C0115, # missing-class-docstring
+    C0116, # missing-function-docstring
+    E1136, # unsubscriptable-object (Fixes the Mapped[] error)
+    E1102, # not-callable (Fixes func.now error)
+    C0301, # line-too-long (Optional: if you don't care about 100 char limit)
+    R0903, # too-few-public-methods (Pydantic models often have 0 methods)
+    C0413, # wrong-import-position (Fixes the load_dotenv issue globally)
+    W0613, # unused-argument (FastAPI dependencies often have unused args)
