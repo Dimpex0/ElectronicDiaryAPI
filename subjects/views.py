@@ -7,7 +7,6 @@ from audit.service import log
 from auth.RoleChecker import RoleChecker
 from auth.models import User, Role
 from dependency import db_dependency
-from subjects.models import Subject, SubjectMaterial
 from subjects.schemas import CreateSubjectRequest, SubjectResponse, AddStudentsRequest, RemoveStudentsRequest, \
     StatusRequest, TeacherRequest, SubjectMaterialResponse, CreateSubjectMaterialRequest
 from subjects.service import create_subject, add_students, remove_students, change_status, change_teacher, \

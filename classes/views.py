@@ -5,8 +5,9 @@ from starlette import status
 
 from auth.RoleChecker import RoleChecker
 from auth.models import User, Role
-from classes.schemas import CreateClassRequest, ClassResponse, AddStudentsRequest, ChangeClassStatusRequest
-from classes.service import create_empty_class, add_students_to_class, change_class_status
+from classes.schemas import CreateClassRequest, ClassResponse, AddStudentsRequest, ChangeClassStatusRequest, \
+    AddSubjectsRequest
+from classes.service import create_empty_class, add_students_to_class, change_class_status, add_subjects_to_class
 from dependency import db_dependency
 
 router = APIRouter(prefix="/classes", tags=["classes"])
@@ -31,18 +32,15 @@ async def create_class(user: teacher_or_principal_or_admin_dependency, request: 
         archived=new_class.archived
     )
 
-@router.post("/{id}/add-students", status_code=status.HTTP_200_OK)
-async def add_students(user: teacher_or_principal_or_admin_dependency, id: int, request: AddStudentsRequest, db: db_dependency):
-    await add_students_to_class(id, request, db)
+@router.post("/{class_id}/add-students", status_code=status.HTTP_200_OK)
+async def add_students(user: teacher_or_principal_or_admin_dependency, class_id: int, request: AddStudentsRequest, db: db_dependency):
+    await add_students_to_class(class_id, request, db)
 
-@router.post("/{id}/status", status_code=status.HTTP_200_OK, response_model=ClassResponse)
-async def change_status(user: teacher_or_principal_or_admin_dependency, id: int, request: ChangeClassStatusRequest, db: db_dependency):
-    updated_class = change_class_status(request, id, db)
-    return ClassResponse(
-        name=updated_class.name,
-        year=updated_class.year,
-        teacher_id=updated_class.teacher_id,
-        students_ids=[s.id for s in updated_class.students],
-        archived=updated_class.archived
-    )
+@router.post("/{class_id}/status", status_code=status.HTTP_200_OK, response_model=ClassResponse)
+async def change_status(user: teacher_or_principal_or_admin_dependency, class_id: int, request: ChangeClassStatusRequest, db: db_dependency):
+    return change_class_status(request, class_id, db)
 
+
+@router.post("/{class_id}/subjects", status_code=status.HTTP_200_OK, response_model=ClassResponse)
+async def add_subjects(user: teacher_or_principal_or_admin_dependency, class_id: int, request: AddSubjectsRequest, db: db_dependency):
+    return await add_subjects_to_class(user, class_id, request, db)

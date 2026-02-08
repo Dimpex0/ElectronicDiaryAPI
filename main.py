@@ -1,5 +1,7 @@
 from dotenv import load_dotenv
 
+import absences.views
+
 load_dotenv()
 
 import os
@@ -45,6 +47,7 @@ app.include_router(parents.views.router)
 app.include_router(classes.views.router)
 app.include_router(subjects.views.router)
 app.include_router(grades.views.router)
+app.include_router(absences.views.router)
 
 UPLOAD_DIR = os.getenv("MEDIA_PATH", "./media")
 
